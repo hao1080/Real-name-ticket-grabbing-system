@@ -1,0 +1,70 @@
+﻿@using System.Data
+@model DataTable
+@{
+    ViewData["Title"] = "實名制 - 購票紀錄查詢";
+}
+
+<div class="container mt-5">
+    <div class="card shadow border-primary mb-4 m-auto" style="max-width: 800px;">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0 fw-bold text-center"><i class="bi bi-search"></i> 實名制購票紀錄查詢</h3>
+        </div>
+        <div class="card-body p-4">
+            <form action="@Url.Action("OrderHistory", "Home")" method="get" class="row g-3 justify-content-center">
+                <div class="col-md-8">
+                    <label class="form-label fw-bold">請輸入持票人「身分證字號」進行查詢：</label>
+                    <input type="text" name="searchIdNumber" class="form-control form-control-lg text-center"
+                           placeholder="例如：A123456789" value="@ViewBag.SearchKey" required />
+                </div>
+                <div class="col-md-4 d-flex align-items-end">
+                    <button type="submit" class="btn btn-primary btn-lg w-100 fw-bold">🔍 開始查詢</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    @if (ViewBag.SearchKey != null)
+    {
+        <div class="card shadow m-auto mt-4" style="max-width: 900px;">
+            <div class="card-body">
+                <h4 class="fw-bold mb-3 text-secondary">📊 查詢結果為：</h4>
+
+                @if (Model.Rows.Count > 0)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped table-hover align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    @foreach (DataColumn col in Model.Columns)
+                                    {
+                                        <th>@col.ColumnName</th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (DataRow row in Model.Rows)
+                                {
+                                    <tr>
+                                        <td><span class="badge bg-secondary">@row["訂單編號"]</span></td>
+                                        <td class="fw-bold text-primary">@row["演唱會"]</td>
+                                        <td>@row["票券區域"]</td>
+                                        <td class="text-success fw-bold">$ @row["票價"]</td>
+                                        <td>@row["座位號碼"]</td>
+                                        <td class="fw-bold">@row["持票人姓名"]</td>
+                                        <td class="text-muted small">@row["購票時間"]</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-warning text-center fw-bold my-3">
+                        ❌ 查無此身分證字號的實名制購票紀錄，請確認輸入是否正確。
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,40 @@
+﻿@using System.Data
+@model DataTable
+@{
+    ViewData["Title"] = "實名制搶票 - 選擇場次";
+}
+
+<div class="container mt-5">
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success">@TempData["Success"]</div>
+    }
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold text-primary">🎟️ 實名制售票系統 🎟️</h1>
+        <p class="lead">請選擇您欲搶購的演唱會場次</p>
+    </div>
+
+    <div class="row">
+        @foreach (DataRow row in Model.Rows)
+        {
+            <div class="col-md-6 mb-4">
+                <div class="card h-100 shadow-sm border-primary">
+                    <div class="card-body d-flex flex-column justify-content-between">
+                        <div>
+                            <h3 class="card-title text-dark fw-bold">@row["ArtistName"] 演唱會</h3>
+                            <p class="card-text text-muted fs-5"><i class="bi bi-geo-alt-fill text-danger"></i> 地點：@row["Venue"]</p>
+                        </div>
+                        <div class="mt-3">
+                            <a href="@Url.Action("SelectZone", "Home", new { concertId = row["ConcertID"] })" class="btn btn-primary w-100 fs-5 fw-bold">立即搶票</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

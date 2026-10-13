@@ -1,0 +1,56 @@
+﻿@model IEnumerable<WebApplication1.Models.ZoneStatusViewModel>
+
+@{
+    ViewData["Title"] = "演唱會售票即時監控面板";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-primary"><i class="bi bi-speedometer2"></i> 期末專題 - 售票即時後台監控面板</h2>
+        <span class="badge bg-secondary p-2">資料庫：MS-SQL [期末]</span>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h5 class="card-title mb-0">各場次區域銷售數據整合報告（全功能 SQL 整合測試）</h5>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-info">
+                    <tr>
+                        <th>演唱會名稱</th>
+                        <th>區域名稱</th>
+                        <th>票價 (TWD)</th>
+                        <th>總座位數</th>
+                        <th>已售出張數</th>
+                        <th>剩餘座位數</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><strong>@item.ArtistName</strong></td>
+                            <td>@item.ZoneName</td>
+                            <td>$@item.Price.ToString("N0")</td>
+                            <td>@item.TotalSeats 席</td>
+                            <td>
+                                <span class="badge bg-warning text-dark">@item.SoldTickets 張</span>
+                            </td>
+                            <td>
+                                @if (item.RemainingSeats == 0)
+                                {
+                                    <span class="badge bg-danger">已售罄 (完售)</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">剩餘 @item.RemainingSeats 席</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

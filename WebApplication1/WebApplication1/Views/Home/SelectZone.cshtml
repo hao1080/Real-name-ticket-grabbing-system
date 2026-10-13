@@ -1,0 +1,29 @@
+﻿@using System.Data
+@model DataTable
+@{
+    ViewData["Title"] = "選擇票券區域";
+}
+
+<div class="container mt-5">
+    <div class="mb-4">
+        <a href="@Url.Action("Index","Home")" class="btn btn-outline-secondary">⬅️ 返回場次選擇</a>
+    </div>
+
+    <h2 class="fw-bold mb-4">📍 選擇票價區域 (場次: @ViewBag.ConcertID)</h2>
+
+    <div class="list-group shadow">
+        @foreach (DataRow row in Model.Rows)
+        {
+            <div class="list-group-item list-group-item-action d-flex justify-content-between align-items-center p-4">
+                <div>
+                    <h4 class="fw-bold mb-1 text-primary">@row["ZoneName"]</h4>
+                    <p class="mb-0 text-muted">總座位數：@row["TotalSeats"] 人</p>
+                </div>
+                <div class="text-end">
+                    <h3 class="text-success fw-bold mb-2">TWD $ @row["Price"]</h3>
+                    <a href="@Url.Action("Checkout", "Home", new { zoneId = row["ZoneID"], concertId = ViewBag.ConcertID })" class="btn btn-success fw-bold">選擇此區域</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "實名制資料確認";
+}
+
+<div class="container mt-5">
+    <div class="card shadow border-danger m-auto" style="max-width: 600px;">
+        <div class="card-header bg-danger text-white">
+            <h3 class="mb-0 fw-bold text-center">🔐 拓元實名制驗證認證</h3>
+        </div>
+        <div class="card-body p-4">
+            @if (TempData["Error"] != null)
+            {
+                <div class="alert alert-danger">@TempData["Error"]</div>
+            }
+
+            <form action="@Url.Action("SubmitOrder", "Home")" method="post">
+                <input type="hidden" name="concertId" value="@ViewBag.ConcertID" />
+                <input type="hidden" name="zoneId" value="@ViewBag.ZoneID" />
+                <input type="hidden" name="correctCaptcha" value="@ViewBag.Captcha" />
+
+             
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">購票張數 (每人限購 4 張)</label>
+                    <input type="number" name="totalTickets" class="form-control" min="1" max="4" value="1" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">持票人真實姓名 (進場查驗)</label>
+                    <input type="text" name="realName" class="form-control" required placeholder="請填寫身分證姓名" />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">持票人身分證字號</label>
+                    <input type="text" name="idNumber" class="form-control" required placeholder="例如：A123456789" />
+                </div>
+
+                <div class="mb-4 p-3 bg-light border text-center rounded">
+                    <label class="form-label d-block fw-bold mb-2">請輸入下方圖形驗證碼</label>
+                    <span class="badge bg-dark fs-3 tracking-widest px-4 py-2 mb-3">@ViewBag.Captcha</span>
+                    <input type="text" name="userCaptcha" class="form-control text-center m-auto" style="max-width: 200px;" required placeholder="輸入 4 位數驗證碼" />
+                </div>
+
+                <button type="submit" class="btn btn-danger w-100 fs-5 fw-bold py-2 shadow-sm">確認送出，開搶！</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    .tracking-widest {
+        letter-spacing: 6px;
+    }
+</style>
